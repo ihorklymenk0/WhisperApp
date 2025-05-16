@@ -6,6 +6,9 @@ workflows:
       vars:
         JAVA_VERSION: 11
     scripts:
+      - name: Give execution permission
+        script: |
+          chmod +x ./gradlew
       - name: Build APK
         script: |
           ./gradlew clean
