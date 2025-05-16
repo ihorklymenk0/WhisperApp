@@ -8,7 +8,7 @@ workflows:
     scripts:
       - name: Build APK
         script: |
-      ./gradlew clean
-      ./gradlew assembleRelease
+          ./gradlew clean
+          ./gradlew assembleRelease
     artifacts:
       - app/build/outputs/**/*.apk
