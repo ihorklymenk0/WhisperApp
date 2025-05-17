@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">WhisperVox</string>
+    <string name="text_copied">Текст скопійовано</string>
+    <string name="downloading_model">Завантаження моделі...</string>
+    <string name="download_failed">Не вдалося завантажити модель</string>
+    <string name="processing">Обробка аудіо...</string>
+    <string name="permission_required">Потрібен дозвіл на запис</string>
+
 </resources>
