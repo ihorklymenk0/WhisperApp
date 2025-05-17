@@ -42,7 +42,10 @@ android {
 repositories {
     google()
     mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // ONNX
+    maven { url "https://www.jitpack.io" } // FFmpeg
 }
+
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.10"
