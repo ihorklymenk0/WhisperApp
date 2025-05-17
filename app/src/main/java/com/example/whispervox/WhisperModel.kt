@@ -2,8 +2,8 @@ package com.example.whispervox
 
 import android.content.Context
 import android.util.Log
-import com.arthenica.mobileffmpeg.Config
-import com.arthenica.mobileffmpeg.FFmpeg
+import com.arthenica.ffmpegkit.FFmpegKit
+import com.arthenica.ffmpegkit.ReturnCode
 import com.microsoft.onnxruntime.OnnxTensor
 import com.microsoft.onnxruntime.OrtEnvironment
 import com.microsoft.onnxruntime.OrtSession
@@ -127,9 +127,10 @@ class WhisperModel(private val context: Context) {
             val wavFile = File(context.cacheDir, "temp_audio.wav")
             val ffmpegCommand = "-i $audioFilePath -ar $SAMPLE_RATE -ac 1 -c:a pcm_s16le ${wavFile.absolutePath}"
             
-            val result = FFmpeg.execute(ffmpegCommand)
-            if (result != Config.RETURN_CODE_SUCCESS) {
-                Log.e(TAG, "FFmpeg process failed with rc: $result")
+            val session = FFmpegKit.execute(ffmpegCommand)
+
+            if (!ReturnCode.isSuccess(session.returnCode)) {
+                Log.e(TAG, "FFmpeg process failed with rc: ${session.returnCode}")
                 return "Помилка конвертації аудіо"
             }
             
