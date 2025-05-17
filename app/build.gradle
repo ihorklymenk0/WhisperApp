@@ -54,7 +54,7 @@ dependencies {
     implementation 'com.microsoft.onnxruntime:onnxruntime-android:1.13.1'
 
     // FFmpeg (заміна full → full-gpl)
-    implementation 'com.arthenica:mobile-ffmpeg-full:4.4.LTS'
+    implementation 'com.arthenica:ffmpeg-kit-full:5.1.LTS'
 
     // OkHttp
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
