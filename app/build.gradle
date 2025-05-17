@@ -43,7 +43,13 @@ repositories {
     google()
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" } // ONNX
-    maven { url "https://www.jitpack.io" } // FFmpeg
+    maven {
+        url "https://jitpack.io"
+        credentials {
+            username = "ihorklymenkO"
+            password = "your_token"
+        }
+    } // FFmpeg
 }
 
 
