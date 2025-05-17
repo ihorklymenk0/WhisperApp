@@ -50,18 +50,19 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.10"
 
-    // ONNX (Whisper інференс)
-    implementation 'com.microsoft.onnxruntime:onnxruntime-android:1.14.1'
+    // ONNX (заміна 1.14.1 → 1.13.1)
+    implementation 'com.microsoft.onnxruntime:onnxruntime-android:1.13.1'
 
-    // FFmpeg для аудіо обробки
-    implementation 'com.arthenica:mobile-ffmpeg-full:4.4'
+    // FFmpeg (заміна full → full-gpl)
+    implementation 'com.arthenica:mobile-ffmpeg-full-gpl:4.4'
 
-    // OkHttp для завантаження моделі
+    // OkHttp
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
 
-    // AndroidX підтримка
+    // AndroidX
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
     implementation 'com.google.android.material:material:1.10.0'
 }
+
