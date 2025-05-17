@@ -88,3 +88,76 @@ class MainActivity : AppCompatActivity() {
                 }
                 
                 override fun onDownloadProgress(progress: Int) {
+                    // Можна додати відображення прогресу завантаження
+                }
+                
+                override fun onDownloadComplete() {
+                    runOnUiThread {
+                        binding.progressBar.visibility = View.GONE
+                        whisperModel.loadModel()
+                    }
+                }
+                
+                override fun onDownloadFailed(error: String) {
+                    runOnUiThread {
+                        binding.progressBar.visibility = View.GONE
+                        Toast.makeText(this@MainActivity, R.string.download_failed, Toast.LENGTH_LONG).show()
+                    }
+                }
+            })
+        } else {
+            whisperModel.loadModel()
+        }
+    }
+    
+    private fun startRecording() {
+        binding.transcriptionText.text.clear()
+        binding.copyButton.visibility = View.GONE
+        binding.waveformAnimation.visibility = View.VISIBLE
+        
+        audioFile = File(cacheDir, "recording.pcm")
+        audioRecorder.startRecording(audioFile!!)
+    }
+    
+    private fun stopRecordingAndTranscribe() {
+        binding.waveformAnimation.visibility = View.INVISIBLE
+        val recordedFile = audioRecorder.stopRecording()
+        
+        if (recordedFile != null && recordedFile.exists() && recordedFile.length() > 0) {
+            binding.progressBar.visibility = View.VISIBLE
+            Toast.makeText(this, R.string.processing, Toast.LENGTH_SHORT).show()
+            
+            executorService.execute {
+                val transcription = whisperModel.transcribeAudio(recordedFile.absolutePath)
+                
+                runOnUiThread {
+                    binding.progressBar.visibility = View.GONE
+                    binding.transcriptionText.setText(transcription)
+                    binding.copyButton.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+    
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        
+        if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Дозвіл надано
+            } else {
+                Toast.makeText(this, R.string.permission_required, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        whisperModel.unloadModel()
+        executorService.shutdown()
+    }
+}
